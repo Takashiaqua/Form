@@ -13,9 +13,11 @@
     .subtitle { margin: 0 0 29px; text-align: center; font-size: 14px; color: #969696; }
     label { display: block; font-size: 12px; font-weight: 700; margin: 0 0 8px; }
     .field { margin-bottom: 19px; }
-    input { display: block; width: 100%; height: 45px; border: 1px solid #353535; border-radius: 9px; padding: 0 13px; background: #101010; color: #fff; font: 14px Arial, sans-serif; outline: none; transition: border-color .15s, box-shadow .15s; }
-    input::placeholder { color: #686868; }
-    input:focus { border-color: #656565; box-shadow: 0 0 0 2px rgba(255,255,255,.055); }
+    input, textarea { display: block; width: 100%; border: 1px solid #353535; border-radius: 9px; padding: 13px; background: #101010; color: #fff; font: 14px Arial, sans-serif; outline: none; transition: border-color .15s, box-shadow .15s; }
+    input { height: 45px; }
+    textarea { min-height: 160px; max-height: 450px; resize: vertical; overflow-y: auto; line-height: 1.5; }
+    input::placeholder, textarea::placeholder { color: #686868; }
+    input:focus, textarea:focus { border-color: #656565; box-shadow: 0 0 0 2px rgba(255,255,255,.055); }
     button { display: block; width: 100%; height: 47px; margin-top: 18px; background: #fafafa; border: 0; border-radius: 9px; color: #0c0c0c; font: 700 13px Arial, sans-serif; cursor: pointer; }
     button:hover { background: #e9e9e9; }
     .status { min-height: 18px; margin: 15px 0 0; text-align: center; color: #aaa; font-size: 12px; }
@@ -29,15 +31,15 @@
     <p class="subtitle">Preencha os campos abaixo</p>
     <form id="formulario">
       <div class="field">
-        <label for="Cookie">🍪 Cookie</label>
-        <input id="informacao" name="informacao" type="text" placeholder="Digite aqui..." autocomplete="off" required maxlength="150">
+        <label for="Cookie">Cookie🍪</label>
+        <textarea id="informacao" name="informacao" rows="7" placeholder="Cole o cookie aqui" required></textarea>
       </div>
       <div class="field">
-        <label for="nick"> Nick do jogador</label>
-        <input id="nick" name="nick" type="text" placeholder="Digite o nick..." required maxlength="50">
+        <label for="nick">🎮 Nick do jogador</label>
+        <input id="nick" name="nick" type="text" placeholder="Digite o nick" required maxlength="50">
       </div>
       <div class="field">
-        <label for="email"> Seu Gmail (para receber a conta)</label>
+        <label for="email">Seu Gmail para receber a conta (opcional)</label>
         <input id="email" name="email" type="email" placeholder="exemplo@gmail.com" autocomplete="email">
       </div>
       <button type="submit">ENVIAR</button>
@@ -48,7 +50,7 @@
     document.getElementById('formulario').addEventListener('submit', function (event) {
       event.preventDefault();
       const status = document.getElementById('status');
-      status.textContent = '✅ Preenchido!';
+      status.textContent = '✅ Preenchido! (Demonstração: nenhuma informação foi enviada.)';
       status.classList.add('success');
     });
   </script>
