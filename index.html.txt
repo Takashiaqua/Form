@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enviar informações</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, #252525, #050505);
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.formulario {
+  background: #151515;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 32px;
+  width: 400px;
+  max-width: 92%;
+}
+
+h1 { text-align: center; font-size: 25px; margin: 0; }
+.subtitulo { text-align: center; color: #999; margin: 8px 0 28px; }
+
+label { display: block; font-size: 13px; font-weight: bold; margin: 18px 0 7px; }
+
+input, textarea {
+  width: 100%;
+  background: #101010;
+  border: 1px solid #363636;
+  border-radius: 9px;
+  padding: 14px;
+  color: white;
+  font: inherit;
+  outline: none;
+}
+
+input:focus, textarea:focus { border-color: #888; }
+
+button {
+  width: 100%;
+  background: white;
+  color: black;
+  border: 0;
+  border-radius: 9px;
+  padding: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 18px;
+}
+
+button:hover { background: #ddd; }
+
+#status { text-align: center; color: #5ee078; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="formulario">
+  <h1>Enviar informações</h1>
+  <p class="subtitulo">Preencha os campos abaixo</p>
+
+  <form id="form">
+    <label>🎮 Nome de usuário</label>
+    <input name="usuario" placeholder="Digite seu nick..." required maxlength="50">
+
+    <label>📧 Seu e-mail (opcional)</label>
+    <input name="email" type="email" placeholder="exemplo@gmail.com">
+
+    <label>💬 Mensagem</label>
+    <textarea name="mensagem" placeholder="Digite sua mensagem..." required></textarea>
+
+    <button type="submit">ENVIAR</button>
+    <p id="status"></p>
+  </form>
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit", function(event) {
+  event.preventDefault();
+  document.getElementById("status").textContent = "✅ Formulário preenchido!";
+});
+</script>
+</body>
+</html>
